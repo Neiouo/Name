@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="width: 60%; margin: auto; padding-top: 2rem; text-align: left;">
+  {% for content in data %}
+    <div style="margin-bottom: 2em; padding: 1em; border-bottom: 1px solid #ccc;">
+      {{ content | safe }}
+    </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

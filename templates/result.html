@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>分析結果</h2>
+
+
+<div style="margin-bottom: 20px;">
+    <a><strong>正面：</strong> {{ stats["正面心情"] }}</a>
+    <a><strong>中性：</strong> {{ stats["中性心情"] }}</a>
+    <a><strong>負面：</strong> {{ stats["負面心情"] }}</a>
+</div>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>時間</th>
+            <th>運動類型</th>
+            <th>持續時間(分)</th>
+            <th>筆記</th>
+            <th>正面心情</th>
+            <th>負面心情</th>
+            <th>中性心情</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in data %}
+        <tr>
+            <td>{{ row['時間'] }}</td>
+            <td>{{ row['運動類型'] }}</td>
+            <td>{{ row['持續時間(分)'] }}</td>
+            <td>{{ row['筆記'] }}</td>
+            <td>{{ row['正面心情'] }}</td>
+            <td>{{ row['負面心情'] }}</td>
+            <td>{{ row['中性心情'] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

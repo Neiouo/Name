@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8">
+    <title>個人運動紀錄</title>
+    <style>
+        body { text-align: center; font-family: Arial; }
+        nav { background-color: #f0f0f0; padding: 10px; }
+        nav a { margin: 0 15px; text-decoration: none; color: #333; }
+        table { margin: auto; border-collapse: collapse; }
+        th, td { border: 1px solid #aaa; padding: 8px; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="{{ url_for('home') }}">首頁</a>
+        <a href="{{ url_for('add_record') }}">新增運動紀錄</a>
+        <a href="{{ url_for('generate_charts') }}">運動紀錄圖表</a>
+        <a href="{{ url_for('view_records') }}">運動紀錄分析</a>
+    </nav>
+    <div id="content-wrapper" class="fade-in">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
+

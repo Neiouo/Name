@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>運動紀錄列表</h2>
+<div>
+    <button id="process-data-btn" class="btn btn-primary">運動內容分析</button>
+    <button id="process-notes-btn" class="btn btn-primary">筆記語句分析</button>
+    <button id="generate-pdf-btn" class="btn btn-primary">PDF報表生成</button>
+
+</div>
+<div style="margin-bottom: 20px;"></div>
+
+<div id="process-result" style="margin-top: 20px;"></div>
+  
+<a href="/table" class="btn btn-info" id="view-results-btn" style="display: none;">查看分析結果</a>
+<!-- 顯示運動紀錄表格 -->
+
+<script>
+    document.getElementById('process-data-btn').addEventListener('click', async function() {
+        const resultDiv = document.getElementById('process-result');
+        
+        const viewResultsBtn = document.getElementById('view-results-btn');
+
+        resultDiv.textContent = "正在處理資料，請稍候...";
+        
+        viewResultsBtn.style.display = "none"; // 隱藏查看結果按鈕
+
+        try {
+            const response = await fetch('/process_data', { method: 'POST' });
+            const data = await response.json();
+            if (data.success) {
+                resultDiv.textContent = data.message;
+                
+                viewResultsBtn.style.display = "inline-block"; // 顯示查看結果按鈕
+            } else {
+                resultDiv.textContent = `處理失敗：${data.error}`;
+            }
+        } catch (error) {
+            resultDiv.textContent = `處理失敗：${error.message}`;
+        }
+    });
+</script>
+
+<script>
+    document.getElementById('process-notes-btn').addEventListener('click', async function() {
+        const resultDiv = document.getElementById('process-result');
+        resultDiv.textContent = "正在分析筆記，請稍候...";
+        try {
+            const response = await fetch('/process_notes', { method: 'POST' });
+            const data = await response.json();
+            if (data.success) {
+                resultDiv.textContent = "分析完成，正在跳轉到結果頁面...";
+                window.location.href = "/result";
+            } else {
+                resultDiv.textContent = `分析失敗：${data.error}`;
+            }
+        } catch (error) {
+            resultDiv.textContent = `分析失敗：${error.message}`;
+        }
+    });
+
+    
+</script>
+
+<script>
+    document.getElementById('generate-pdf-btn').addEventListener('click', async function() {
+        const resultDiv = document.getElementById('process-result');
+
+        resultDiv.textContent = "正在生成 PDF，請稍候...";
+
+        try {
+            const response = await fetch('/generate_pdf', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                
+                resultDiv.innerHTML = `PDF 已生成，請點擊以下連結下載：<a href="${data.pdf_path}" class="btn btn-success" id="download-pdf-btn">下載 PDF</a>`;
+            } else {
+                resultDiv.textContent = `生成失敗：${data.error}`;
+            }
+        } catch (error) {
+            resultDiv.textContent = `生成失敗：${error.message}`;
+        }
+    });
+</script>
+
+
+<table>
+    <tr>
+        <th>日期</th>
+        <th>運動類型</th>
+        <th>持續時間(分)</th>
+        <th>筆記</th>
+    </tr>
+    {% for log in logs %}
+    <tr>
+        <td>{{ log['時間'] }}</td>
+        <td>{{ log['運動類型'] }}</td>
+        <td>{{ log['持續時間(分)'] }}</td>
+        <td>{{ log['筆記'] }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

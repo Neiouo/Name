@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 style="text-align: center;">運動紀錄圖表</h2>
+<div style="text-align: center; margin-top: 20px;">
+    <p>{{ log }}</p>
+    {% if charts %}
+        <h3>生成的圖表：</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 20px; justify-content: center;">
+            {% for chart in charts %}
+                <div>
+                    <img src="{{ chart }}" alt="圖表" style="max-width: 100%; height: auto;">
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

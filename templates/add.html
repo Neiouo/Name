@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>新增運動紀錄</h2>
+<form method="POST">
+    <p>日期：<input type="date" name="date" required></p>
+    <p>運動類型：<input type="text" name="type" required></p>
+    <p>持續時間（分鐘）：<input type="number" name="duration" required></p>
+    <p>筆記：<input type="text" name="note"></p>
+    <p><input type="submit" value="新增紀錄"></p>
+</form>
+{% endblock %}
